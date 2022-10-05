@@ -46,14 +46,15 @@ message LogsData {
 
 // A collection of ScopeLogs from a Resource.
 message ResourceLogs {
-  reserved 1000;
-
   // The resource for the logs in this message.
   // If this field is not set then resource info is unknown.
   opentelemetry.proto.resource.v1.Resource resource = 1;
 
   // A list of ScopeLogs that originate from a resource.
   repeated ScopeLogs scope_logs = 2;
+
+  // HACK: Workaround for istio 1.15 / envoy 1.23.1 mistakenly emitting deprecated field.
+  repeated ScopeLogs instrumentation_library_logs = 1000;
 
   // This schema_url applies to the data in the "resource" field. It does not apply
   // to the data in the "scope_logs" field which have their own schema_url field.
